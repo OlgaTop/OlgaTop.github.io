@@ -1,0 +1,107 @@
+
+
+
+$(document).ready(function(){
+
+	var loadingpanel = $("#loadingpanel");
+	var loadingpanelbar = loadingpanel.find("span.bar");
+	
+	var barwidth = 0;
+	window.setInterval(function(){
+		try {
+			if ($("#file").val().length>0)
+				loadingpanel.show();
+			
+			if (loadingpanel.is(":visible"))
+				loadingpanelbar.css({width:(((barwidth+=5) % 101)+"%")});
+		} catch (e) {}
+	},500);
+	
+	
+
+	$(".bootstrap-filestyle").mouseup(function(){
+		try {
+ 			ga('send', {
+ 				  hitType: 'event',
+ 				  eventCategory: 'click',
+ 				  eventAction: 'upload',
+ 				  eventLabel: 'file'
+ 				});
+ 		} catch (e) {}
+	});
+ 
+	
+	try {
+ 		
+		$(".autofadeout").each(function(){
+			var div = $(this);
+			div.mousemove(function(){
+				div.removeClass("autofadeout");
+			});
+		});
+		
+ 		window.setTimeout(function(){
+ 			var div = $(".autofadeout");
+ 			div.parent().fadeOut();
+ 		}, 5000);
+ 		
+ 	} catch (e) {}
+ 	
+ 	
+ 	try {
+ 		
+		var nocredits = $("#nocredits, .credits");
+		if (nocredits.length>0){
+     		
+     		var seconds = [parseInt(nocredits.data("seconds"))];
+     		window.setInterval(function(){
+     			
+     			if (seconds[0]>0) {
+     				nocredits.find(".creditminutes").text(""+parseInt(seconds[0]/60));
+     				nocredits.find(".creditseconds").text(""+parseInt(seconds[0]%60));
+	     			
+     			}
+     			seconds[0]=seconds[0]-1;
+     			
+     			
+     			if (seconds[0]==-3) {
+     				if (window.location.pathname.indexOf("/images/")>=0)
+     					window.location = window.location.pathname;
+     				else
+     					window.location.href = "/";
+     			}
+     			 
+     			
+     		}, 1000);
+ 		
+ 		}
+ 		
+ 	} catch (e) {}
+
+ 	try {
+ 		
+ 		var togglesignin = function(showsignin) {
+ 			var a = $("#uploadarea").find(".bootstrap-filestyle");
+ 			var b = $("#uploadarea").find(".signin");
+ 			if (showsignin) {
+ 				a.hide();
+ 				b.show();
+ 				$("#maxuploadsize").text("5MB"); 
+ 			} else {
+ 				b.hide();
+ 				a.show();
+ 				$("#maxuploadsize").text("1MB"); 
+ 			}
+ 		};
+ 		
+ 		$("#sharepublic").change(function(){
+ 			togglesignin( $(this).val()!="on" );
+ 		});
+ 		
+ 		$("#shareprivate").change(function(){
+ 			togglesignin( $(this).val()=="on" );
+ 		});
+ 		
+ 	}catch (e) {}
+ 	
+});
